@@ -93,6 +93,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "social-network-wall:build:production",
+            "firebaseProject": "sbook-a3321",
+            "firebaseHostingSite": "sbook-a3321"
+          }
         }
       }
     }

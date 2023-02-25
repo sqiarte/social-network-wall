@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "sbook-a3321": {
+      "hosting": {
+        "social-network-wall": [
+          "sbook-a3321"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "sbook-a3321"
+  }
+}

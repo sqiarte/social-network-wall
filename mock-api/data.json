@@ -5,6 +5,12 @@
       "username": "kwan",
       "password": "123456789",
       "id": 1
+    },
+    {
+      "email": "sample@gmail.com",
+      "username": "kwankwan",
+      "password": "123456789",
+      "id": 2
     }
   ],
   "posts": []

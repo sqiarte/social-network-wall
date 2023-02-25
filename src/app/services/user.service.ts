@@ -12,14 +12,16 @@ export class UserService {
 
   constructor(private http:HttpClient) { }
 
+  user: any;
+
   public createNewUser(dataObj:any) {
     return new Promise((resolve, reject)=> {
       this.http.post('http://localhost:3000/users', dataObj).subscribe(
         (res)=>{
           resolve(res);
         },
-        (err)=>{
-          reject(err);
+        (error)=>{
+          reject(error);
         }
       )
     })
@@ -31,8 +33,8 @@ export class UserService {
         (res)=> {
           resolve(res);
         },
-        (err)=> {
-          reject(err);
+        (error)=> {
+          reject(error);
         }
       );
       //the server will send user object that has email = email ex. kwan@gmail.com
