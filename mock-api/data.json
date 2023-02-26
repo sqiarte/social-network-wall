@@ -13,5 +13,47 @@
       "id": 2
     }
   ],
-  "posts": []
+  "posts": [
+    {
+      "username": "kwan",
+      "text": "hello",
+      "imageURL": "https://firebasestorage.googleapis.com/v0/b/sbook-a3321.appspot.com/o/images%2F1677390699035?alt=media&token=f70883be-1e09-4959-8060-126bedc8c56d",
+      "likes": [],
+      "comments": [],
+      "id": 1
+    },
+    {
+      "username": "kwan",
+      "text": "wowwwww",
+      "imageURL": "https://firebasestorage.googleapis.com/v0/b/sbook-a3321.appspot.com/o/images%2F1677391218702?alt=media&token=c4d962d4-0c9e-4d80-a19e-fed1a98faab8",
+      "likes": [
+        1
+      ],
+      "comments": [],
+      "id": 2
+    },
+    {
+      "username": "kwan",
+      "text": "heyyyyy",
+      "imageURL": "",
+      "likes": [
+        1
+      ],
+      "comments": [
+        {
+          "username": "kwan",
+          "comment": "testing"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "username": "kwan",
+      "text": "new post :)",
+      "imageURL": "https://firebasestorage.googleapis.com/v0/b/sbook-a3321.appspot.com/o/images%2F1677395496860?alt=media&token=d67a062d-1f09-4dd0-9c62-4914a5c92c3e",
+      "likes": [],
+      "comments": [],
+      "id": 4
+    }
+  ]
 }

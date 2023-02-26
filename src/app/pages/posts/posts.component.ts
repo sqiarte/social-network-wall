@@ -1,3 +1,5 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PostService } from './../../services/post.service';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 import { Router } from '@angular/router';
@@ -13,7 +15,7 @@ import { finalize } from 'rxjs/operators'
 })
 export class PostsComponent implements OnInit {
 
-  constructor(public userService:UserService, private router:Router, private storage:AngularFireStorage) {}
+  constructor(public userService:UserService, private router:Router, private storage:AngularFireStorage, public postService: PostService, private snackbar:MatSnackBar) {}
 
   ngOnInit(): void {
     if(this.userService.user == undefined || this.userService.user == null){
@@ -24,21 +26,66 @@ export class PostsComponent implements OnInit {
          this.router.navigate(['/login']);
       }
     }
+    this.postService.getPosts().then((res:any)=> {
+      this.posts = res;
+      for(let post of this.posts){
+        this.commentText.push("");
+      }
+
+    }).catch((err)=>{
+      console.log(err);
+    })
   }
 
   selectedFile:any;
+  text = '';
+  posts:Array<any> = [];
+  commentText:Array<string> = [];
+
 
   onFileSelected(event:any){
     this.selectedFile = event.target.files[0]
   }
 
   post() {
+    this.snackbar.open('Creating the post...', '', {duration:15000});
     if(this.selectedFile != undefined || this.selectedFile != null) {
       this.uploadImage().then((imageURL)=> {
         console.log(imageURL);
+        let postObj = {
+          username: this.userService.user.username,
+          text: this.text,
+          imageURL: imageURL,
+          likes: [],
+          comments: []
+        }
+        this.posts.push(postObj);
+        this.postService.saveNewPost(postObj).then((res)=>{
+          console.log(res);
+          this.snackbar.open('Posted successfully', 'ok')
+        }).catch((err)=>{
+          console.log(err);
+        });
+        this.selectedFile = undefined;
+
       }).catch((err)=>{
         console.log(err);
       })
+    } else {
+      let postObj = {
+        username: this.userService.user.username,
+        text: this.text,
+        imageURL: '',
+        likes: [],
+        comments: []
+      }
+      this.posts.push(postObj);
+      this.postService.saveNewPost(postObj).then((res)=>{
+        console.log(res);
+        this.snackbar.open('Posted successfully', 'ok')
+      }).catch((err)=>{
+        console.log(err);
+      });
     }
   }
 
@@ -67,6 +114,38 @@ export class PostsComponent implements OnInit {
         }
       )
     })
+  }
+
+  like(postId:any) {
+    for (let i =0; i< this.posts.length; i++){
+      if (this.posts[i].id == postId) {
+        if(this.posts[i].likes.indexOf(this.userService.user.id) >= 0){
+          this.posts[i].likes.splice(this.posts[i].likes.indexOf(this.userService.user.id), 1)
+        }
+        else {
+               this.posts[i].likes.push(this.userService.user.id);
+        }
+        this.postService.updateLikes(this.posts[i]).then((res)=>{
+          console.log(res);
+        }).catch((err)=>{
+          console.log(err);
+        })
+      }
+    }
+  }
+
+  comment(postId:any, commentIndex:any){
+    for (let i =0; i< this.posts.length; i++){
+      if (this.posts[i].id == postId) {
+       let commentObj = {
+        username: this.userService.user.username,
+        comment: this.commentText[commentIndex]
+       };
+       this.posts[i].comments.push(commentObj);
+       this.commentText[commentIndex] = "";
+       this.postService.updateComments(this.posts[i]);
+      }
+    }
   }
 
   postSchema = {
